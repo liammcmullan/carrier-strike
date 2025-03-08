@@ -1,17 +1,18 @@
 import React from 'react';
 
-const gridSize = 64;
-const squareSize = 20;
-const spacing = 1; // Adjust for desired spacing between squares
+const gridSize = 128;
+const octagonSize = 80; // Increased from 20 to 80 (4x)
+const overlap = 0.15; // Adjust this value to control the overlap
 
 function App() {
-  const grid = [];
+  const octagons = [];
+
   for (let row = 0; row < gridSize; row++) {
     for (let col = 0; col < gridSize; col++) {
-      const x = col * (squareSize + spacing);
-      const y = row * (squareSize + spacing);
+      const x = col * (octagonSize * (1 - overlap));
+      const y = row * (octagonSize * (1 - overlap));
 
-      grid.push({
+      octagons.push({
         id: `${row}-${col}`,
         row,
         col,
@@ -22,16 +23,17 @@ function App() {
   }
 
   return (
-    <div style={{ position: 'relative', width: `${gridSize * (squareSize + spacing)}px`, height: `${gridSize * (squareSize + spacing)}px` }}>
-      {grid.map((square) => (
+    <div style={{ position: 'relative', width: `${gridSize * octagonSize * (1 - overlap)}px`, height: `${gridSize * octagonSize * (1 - overlap)}px` }}>
+      {octagons.map((octagon) => (
         <div
-          key={square.id}
+          key={octagon.id}
           style={{
             position: 'absolute',
-            left: square.x,
-            top: square.y,
-            width: squareSize,
-            height: squareSize,
+            left: octagon.x,
+            top: octagon.y,
+            width: octagonSize,
+            height: octagonSize,
+            clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)',
             backgroundColor: 'lightgrey',
             border: '1px solid grey',
           }}
